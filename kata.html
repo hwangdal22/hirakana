@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>카타카나 연습 게임</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            margin: 0;
+        }
+        .question {
+            font-size: 48px;
+            margin: 20px;
+        }
+        .input-container {
+            margin: 20px;
+        }
+        .input-container input {
+            font-size: 24px;
+            padding: 10px;
+        }
+        .feedback {
+            font-size: 24px;
+            margin: 20px;
+        }
+        .next-button {
+            font-size: 24px;
+            padding: 10px 20px;
+            margin: 20px;
+        }
+        .score {
+            font-size: 24px;
+            margin: 20px;
+        }
+    </style>
+</head>
+<body>
+
+<div class="question" id="question"></div>
+<div class="input-container">
+    <input type="text" id="answerInput" placeholder="발음을 입력하세요">
+</div>
+<div class="feedback" id="feedback"></div>
+<button class="next-button" id="nextButton">다음</button>
+<div class="score" id="score"></div>
+
+<script>
+    const katakanaDict = {
+        'ア': 'a', 'イ': 'i', 'ウ': 'u', 'エ': 'e', 'オ': 'o',
+        'カ': 'ka', 'キ': 'ki', 'ク': 'ku', 'ケ': 'ke', 'コ': 'ko',
+        'サ': 'sa', 'シ': 'shi', 'ス': 'su', 'セ': 'se', 'ソ': 'so',
+        'タ': 'ta', 'チ': 'chi', 'ツ': 'tsu', 'テ': 'te', 'ト': 'to',
+        'ナ': 'na', 'ニ': 'ni', 'ヌ': 'nu', 'ネ': 'ne', 'ノ': 'no',
+        'ハ': 'ha', 'ヒ': 'hi', 'フ': 'fu', 'ヘ': 'he', 'ホ': 'ho',
+        'マ': 'ma', 'ミ': 'mi', 'ム': 'mu', 'メ': 'me', 'モ': 'mo',
+        'ヤ': 'ya', 'ユ': 'yu', 'ヨ': 'yo',
+        'ラ': 'ra', 'リ': 'ri', 'ル': 'ru', 'レ': 're', 'ロ': 'ro',
+        'ワ': 'wa', 'ヲ': 'wo', 'ン': 'n'
+    };
+
+    let questions = Object.entries(katakanaDict);
+    let currentQuestionIndex = 0;
+    let score = 0;
+
+    const questionElement = document.getElementById('question');
+    const answerInput = document.getElementById('answerInput');
+    const feedbackElement = document.getElementById('feedback');
+    const nextButton = document.getElementById('nextButton');
+    const scoreElement = document.getElementById('score');
+
+    function shuffle(array) {
+        for (let i = array.length - 1; i > 0; i--) {
+            const j = Math.floor(Math.random() * (i + 1));
+            [array[i], array[j]] = [array[j], array[i]];
+        }
+    }
+
+    function startGame() {
+        shuffle(questions);
+        showNextQuestion();
+    }
+
+    function showNextQuestion() {
+        if (currentQuestionIndex < 10) {
+            questionElement.textContent = questions[currentQuestionIndex][0];
+            feedbackElement.textContent = '';
+            answerInput.value = '';
+            answerInput.focus();
+        } else {
+            showScore();
+        }
+    }
+
+    function checkAnswer() {
+        const userAnswer = answerInput.value.trim().toLowerCase();
+        const correctAnswer = questions[currentQuestionIndex][1];
+        if (userAnswer === correctAnswer) {
+            score++;
+            feedbackElement.textContent = '정답입니다!';
+            feedbackElement.style.color = 'green';
+        } else {
+            feedbackElement.textContent = `틀렸습니다! 정답은 ${correctAnswer}입니다.`;
+            feedbackElement.style.color = 'red';
+        }
+        currentQuestionIndex++;
+        nextButton.disabled = false;
+    }
+
+    function showScore() {
+        questionElement.textContent = '';
+        feedbackElement.textContent = '';
+        nextButton.style.display = 'none';
+        answerInput.style.display = 'none';
+        scoreElement.textContent = `게임 끝! 점수: ${score}/10`;
+    }
+
+    nextButton.addEventListener('click', () => {
+        checkAnswer();
+        setTimeout(showNextQuestion, 1000);
+        nextButton.disabled = true;
+    });
+
+    answerInput.addEventListener('keydown', (event) => {
+        if (event.key === 'Enter') {
+            checkAnswer();
+            setTimeout(showNextQuestion, 1000);
+            nextButton.disabled = true;
+        }
+    });
+
+    startGame();
+</script>
+
+</body>
+</html>
