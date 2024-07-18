@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>히라가나 외우기 대작전</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            margin: 0;
+            text-align: center;
+        }
+        .word {
+            font-size: 16px;
+            margin: 10px;
+        }
+        .hiragana {
+            font-size: 48px;
+            margin: 10px;
+        }
+        .romaji {
+            font-size: 24px;
+            margin: 10px;
+        }
+        .next-button {
+            font-size: 24px;
+            padding: 10px 20px;
+            margin: 20px;
+        }
+        .references {
+            font-size: 14px;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+
+<div class="word" id="word"></div>
+<div class="hiragana" id="hiragana"></div>
+<div class="romaji" id="romaji"></div>
+<button class="next-button" id="nextButton">다음</button>
+
+<div class="references">
+    <p>참고한 유튜브 자료:</p>
+    <ul>
+        <li><a href="https://www.youtube.com/watch?v=TOaNd-rjaQg" target="_blank">https://www.youtube.com/watch?v=TOaNd-rjaQg</a></li>
+        <li><a href="https://www.youtube.com/watch?v=SBA0mqdoDyg" target="_blank">https://www.youtube.com/watch?v=SBA0mqdoDyg</a></li>
+        <li><a href="https://youtu.be/4RQPw3EL-Gw?si=5oMQmJxnY2oLh1Vk" target="_blank">https://youtu.be/4RQPw3EL-Gw?si=5oMQmJxnY2oLh1Vk</a></li>
+    </ul>
+</div>
+
+<script>
+    const hiraganaList = [
+        { word: '아기', hiragana: 'あ', romaji: 'a' },
+        { word: '이빨', hiragana: 'い', romaji: 'i' },
+        { word: '우산', hiragana: 'う', romaji: 'u' },
+        { word: '에어로빅', hiragana: 'え', romaji: 'e' },
+        { word: '오리', hiragana: 'お', romaji: 'o' },
+        { word: '카메라', hiragana: 'か', romaji: 'ka' },
+        { word: '키타', hiragana: 'き', romaji: 'ki' },
+        { word: '쿠션', hiragana: 'く', romaji: 'ku' },
+        { word: '케산기', hiragana: 'け', romaji: 'ke' },
+        { word: '코끼리', hiragana: 'こ', romaji: 'ko' },
+        { word: '사과', hiragana: 'さ', romaji: 'sa' },
+        { word: '낚시바늘', hiragana: 'し', romaji: 'shi' },
+        { word: '스프링', hiragana: 'す', romaji: 'su' },
+        { word: '세숫대야 (젠젠젠세)', hiragana: 'せ', romaji: 'se' },
+        { word: '소라', hiragana: 'そ', romaji: 'so' },
+        { word: '타조', hiragana: 'た', romaji: 'ta' },
+        { word: '치타', hiragana: 'ち', romaji: 'chi' },
+        { word: '부츠', hiragana: 'つ', romaji: 'tsu' },
+        { word: '테이프', hiragana: 'て', romaji: 'te' },
+        { word: '토끼', hiragana: 'と', romaji: 'to' },
+        { word: '나비', hiragana: 'な', romaji: 'na' },
+        { word: '바구니', hiragana: 'に', romaji: 'ni' },
+        { word: '누에', hiragana: 'ぬ', romaji: 'nu' },
+        { word: '그네', hiragana: 'ね', romaji: 'ne' },
+        { word: '높은음자리표', hiragana: 'の', romaji: 'no' },
+        { word: '할아버지', hiragana: 'は', romaji: 'ha' },
+        { word: '히틀러 코', hiragana: 'ひ', romaji: 'hi' },
+        { word: '계란후라이', hiragana: 'ふ', romaji: 'fu' },
+        { word: '헤엄', hiragana: 'へ', romaji: 'he' },
+        { word: '호랑이', hiragana: 'ほ', romaji: 'ho' },
+        { word: '마라톤 선수', hiragana: 'ま', romaji: 'ma' },
+        { word: '미로', hiragana: 'み', romaji: 'mi' },
+        { word: '무용', hiragana: 'む', romaji: 'mu' },
+        { word: '메기', hiragana: 'め', romaji: 'me' },
+        { word: '모자', hiragana: 'も', romaji: 'mo' },
+        { word: '야구', hiragana: 'や', romaji: 'ya' },
+        { word: '유도', hiragana: 'ゆ', romaji: 'yu' },
+        { word: '요트', hiragana: 'よ', romaji: 'yo' },
+        { word: '라디오', hiragana: 'ら', romaji: 'ra' },
+        { word: '리본', hiragana: 'り', romaji: 'ri' },
+        { word: '캥거루 주머니', hiragana: 'る', romaji: 'ru' },
+        { word: '레슬링', hiragana: 'れ', romaji: 're' },
+        { word: '롤러스케이트', hiragana: 'ろ', romaji: 'ro' },
+        { word: '사람입', hiragana: 'わ', romaji: 'wa' },
+        { word: '오징어 복잡', hiragana: 'ゐ', romaji: 'wi' },
+        { word: '은목걸이', hiragana: 'ん', romaji: 'N' }
+    ];
+
+    let currentIndex = 0;
+
+    const wordElement = document.getElementById('word');
+    const hiraganaElement = document.getElementById('hiragana');
+    const romajiElement = document.getElementById('romaji');
+    const nextButton = document.getElementById('nextButton');
+
+    function shuffle(array) {
+        for (let i = array.length - 1; i > 0; i--) {
+            const j = Math.floor(Math.random() * (i + 1));
+            [array[i], array[j]] = [array[j], array[i]];
+        }
+    }
+
+    function showNextHiragana() {
+        if (currentIndex >= hiraganaList.length) {
+            shuffle(hiraganaList);
+            currentIndex = 0;
+        }
+        const { word, hiragana, romaji } = hiraganaList[currentIndex];
+        wordElement.textContent = word;
+        hiraganaElement.textContent = hiragana;
+        romajiElement.textContent = romaji;
+        currentIndex++;
+    }
+
+    nextButton.addEventListener('click', showNextHiragana);
+
+    shuffle(hiraganaList);
+    showNextHiragana();
+</script>
+
+</body>
+</html>
