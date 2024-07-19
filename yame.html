@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>일본어 기초부터 야매로!</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #f8f9fa;
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        .card {
+            background-color: #fff;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            padding: 20px;
+            margin-bottom: 20px;
+            width: 80%;
+            max-width: 600px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+        .hint {
+            display: none;
+            color: #007bff;
+            margin-top: 10px;
+            font-size: 1.2em;
+        }
+        button {
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            padding: 10px 20px;
+            cursor: pointer;
+            font-size: 1em;
+            margin-top: 20px;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+        .next-button {
+            background-color: #28a745;
+        }
+        .next-button:hover {
+            background-color: #218838;
+        }
+    </style>
+</head>
+<body>
+    <h1>일본어 기초부터 야매로!</h1>
+    <div class="card" id="card">
+        <h2 id="word">やさしい</h2>
+        <p><strong>뜻:</strong> 상냥한</p>
+        <p id="word-hint" class="hint"><strong>단어 발음기호:</strong> [ya-sa-shi-i]</p>
+        <p><strong>문장:</strong> かれはとてもやさしいです。</p>
+        <p><strong>문장 뜻:</strong> 그는 매우 상냥합니다.</p>
+        <p id="sentence-hint" class="hint"><strong>문장 발음기호:</strong> [ka-re wa to-te-mo ya-sa-shi-i de-su]</p>
+        <button onclick="showWordHint()">단어 힌트</button>
+        <button onclick="showSentenceHint()">문장 힌트</button>
+    </div>
+    <button class="next-button" onclick="nextWord()">다음</button>
+
+    <script>
+        const words = [
+            {
+                word: "やさしい",
+                meaning: "상냥한",
+                hint: "[ya-sa-shi-i]",
+                sentence: "かれはとてもやさしいです。",
+                sentenceHint: "[ka-re wa to-te-mo ya-sa-shi-i de-su]",
+                sentenceMeaning: "그는 매우 상냥합니다."
+            },
+            {
+                word: "あかるい",
+                meaning: "밝은",
+                hint: "[a-ka-ru-i]",
+                sentence: "へやがあかるいです。",
+                sentenceHint: "[he-ya ga a-ka-ru-i de-su]",
+                sentenceMeaning: "방이 밝습니다."
+            },
+            {
+                word: "おいしい",
+                meaning: "맛있는",
+                hint: "[o-i-shi-i]",
+                sentence: "このりんごはおいしいです。",
+                sentenceHint: "[ko-no rin-go wa o-i-shi-i de-su]",
+                sentenceMeaning: "이 사과는 맛있습니다."
+            },
+            {
+                word: "かわいい",
+                meaning: "귀여운",
+                hint: "[ka-wa-i-i]",
+                sentence: "このねこはとてもかわいいです。",
+                sentenceHint: "[ko-no ne-ko wa to-te-mo ka-wa-i-i de-su]",
+                sentenceMeaning: "이 고양이는 매우 귀엽습니다."
+            },
+            {
+                word: "おもしろい",
+                meaning: "재미있는",
+                hint: "[o-mo-shi-ro-i]",
+                sentence: "このほんはとてもおもしろいです。",
+                sentenceHint: "[ko-no hon wa to-te-mo o-mo-shi-ro-i de-su]",
+                sentenceMeaning: "이 책은 매우 재미있습니다."
+            },
+            // 여기에 추가 단어와 문장을 추가하세요.
+        ];
+
+        let currentIndex = 0;
+
+        function showWordHint() {
+            document.getElementById('word-hint').style.display = 'block';
+        }
+
+        function showSentenceHint() {
+            document.getElementById('sentence-hint').style.display = 'block';
+        }
+
+        function nextWord() {
+            currentIndex = (currentIndex + 1) % words.length;
+            document.getElementById('word').innerText = words[currentIndex].word;
+            document.querySelector('.card p:nth-of-type(2)').innerText = `뜻: ${words[currentIndex].meaning}`;
+            document.getElementById('word-hint').innerText = `단어 발음기호: ${words[currentIndex].hint}`;
+            document.getElementById('word-hint').style.display = 'none';
+            document.querySelector('.card p:nth-of-type(3)').innerText = `문장: ${words[currentIndex].sentence}`;
+            document.getElementById('sentence-hint').innerText = `문장 발음기호: ${words[currentIndex].sentenceHint}`;
+            document.getElementById('sentence-hint').style.display = 'none';
+            document.querySelector('.card p:nth-of-type(4)').innerText = `문장 뜻: ${words[currentIndex].sentenceMeaning}`;
+        }
+    </script>
+</body>
+</html>
